@@ -1,0 +1,9 @@
+---
+description: 
+alwaysApply: true
+enabled: true
+updatedAt: 2025-11-22T01:50:38.704Z
+provider: 
+---
+
+使用 shadcn + tailwindCSS 完成 UI 界面，设计要求美观、简洁，采用响应式布局。在编码前使用 shadcn mcp 搜索可用的组件，以及使用示例

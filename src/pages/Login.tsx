@@ -1,51 +1,94 @@
 import { Button } from '@/components/ui/button'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { NavLink } from 'react-router'
+import { Label } from '@/components/ui/label'
+import { ModeToggle } from '@/components/mode-toggle'
+import { NavLink, useNavigate } from 'react-router'
 
 const Login = () => {
-  const heading = '登录'
   const title = import.meta.env.VITE_APP_TITLE
-  const buttonText = '登录'
-  const signupText = '还没有账号？'
-  const signupUrl = '/signup'
+  const navigate = useNavigate()
 
   return (
-    <section className='bg-muted h-screen'>
-      <div className='flex h-full items-center justify-center'>
+    <section className='bg-muted flex h-screen items-center justify-center p-4'>
+      {/* 模式切换按钮 */}
+      <div className='absolute top-4 right-4'>
+        <ModeToggle />
+      </div>
+
+      <div className='w-full max-w-md'>
         {/* Logo */}
-        <div className='flex flex-col items-center gap-6 lg:justify-start'>
-          <h1 className='text-2xl font-bold'>{title}</h1>
-          <div className='border-muted bg-background flex w-full max-w-sm min-w-sm flex-col items-center gap-y-4 rounded-md border px-6 py-8 shadow-md'>
-            {heading && <h1 className='text-xl font-semibold'>{heading}</h1>}
-            <Input
-              type='email'
-              placeholder='邮箱'
-              className='text-sm'
-              required
-            />
-            <Input
-              type='password'
-              placeholder='密码'
-              className='text-sm'
-              required
-            />
+        <div className='mb-6 text-center'>
+          <h1 className='text-3xl font-bold'>{title}</h1>
+        </div>
+
+        {/* 登录表单卡片 */}
+        <Card className='shadow-lg'>
+          <CardHeader className='space-y-1'>
+            <CardTitle className='text-center text-2xl'>登录</CardTitle>
+            <CardDescription className='text-center'>
+              输入您的邮箱和密码来登录账户
+            </CardDescription>
+          </CardHeader>
+
+          <CardContent className='space-y-4'>
+            <div className='space-y-2'>
+              <Label htmlFor='email'>邮箱</Label>
+              <Input
+                id='email'
+                type='email'
+                placeholder='请输入您的邮箱'
+                required
+              />
+            </div>
+
+            <div className='space-y-2'>
+              <Label htmlFor='password'>密码</Label>
+              <Input
+                id='password'
+                type='password'
+                placeholder='请输入您的密码'
+                required
+              />
+            </div>
+
+            <div className='text-right'>
+              <NavLink
+                to='/forgot-password'
+                className='text-primary text-sm hover:underline'
+              >
+                忘记密码？
+              </NavLink>
+            </div>
+          </CardContent>
+
+          <CardFooter className='flex flex-col space-y-4'>
             <Button
               type='submit'
               className='w-full'
+              onClick={() => navigate('/')}
             >
-              {buttonText}
+              登录
             </Button>
-          </div>
-          <div className='text-muted-foreground flex justify-center gap-1 text-sm'>
-            <p>{signupText}</p>
-            <NavLink
-              to={signupUrl}
-              className='text-primary font-medium hover:underline'
-            >
-              去注册
-            </NavLink>
-          </div>
-        </div>
+
+            <div className='text-muted-foreground text-center text-sm'>
+              还没有账号？
+              <NavLink
+                to='/signup'
+                className='text-primary ml-1 font-medium hover:underline'
+              >
+                去注册
+              </NavLink>
+            </div>
+          </CardFooter>
+        </Card>
       </div>
     </section>
   )

@@ -23,6 +23,7 @@ export default defineConfig([
     },
     rules: {
       'prettier/prettier': 'error',
+      'react-refresh/only-export-components': 'warn',
     },
     languageOptions: {
       ecmaVersion: 2020,

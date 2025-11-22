@@ -12,7 +12,7 @@ import { Label } from '@/components/ui/label'
 import { ModeToggle } from '@/components/mode-toggle'
 import { NavLink, useNavigate } from 'react-router'
 
-const Signup = () => {
+const ForgotPassword = () => {
   const title = import.meta.env.VITE_APP_TITLE
   const navigate = useNavigate()
 
@@ -29,12 +29,12 @@ const Signup = () => {
           <h1 className='text-3xl font-bold'>{title}</h1>
         </div>
 
-        {/* 注册表单卡片 */}
+        {/* 忘记密码表单卡片 */}
         <Card className='shadow-lg'>
           <CardHeader className='space-y-1'>
-            <CardTitle className='text-center text-2xl'>注册</CardTitle>
+            <CardTitle className='text-center text-2xl'>忘记密码</CardTitle>
             <CardDescription className='text-center'>
-              创建一个新账户来开始使用
+              输入您的邮箱，我们将向您发送重置密码的链接
             </CardDescription>
           </CardHeader>
 
@@ -44,27 +44,7 @@ const Signup = () => {
               <Input
                 id='email'
                 type='email'
-                placeholder='请输入您的邮箱'
-                required
-              />
-            </div>
-
-            <div className='space-y-2'>
-              <Label htmlFor='password'>密码</Label>
-              <Input
-                id='password'
-                type='password'
-                placeholder='请设置您的密码'
-                required
-              />
-            </div>
-
-            <div className='space-y-2'>
-              <Label htmlFor='confirmPassword'>确认密码</Label>
-              <Input
-                id='confirmPassword'
-                type='password'
-                placeholder='请再次输入您的密码'
+                placeholder='请输入您的邮箱地址'
                 required
               />
             </div>
@@ -74,18 +54,18 @@ const Signup = () => {
             <Button
               type='submit'
               className='w-full'
-              onClick={() => navigate('/')}
+              onClick={() => navigate('/login')}
             >
-              注册
+              发送重置链接
             </Button>
 
             <div className='text-muted-foreground text-center text-sm'>
-              已经有账号？
+              记起密码了？
               <NavLink
                 to='/login'
                 className='text-primary ml-1 font-medium hover:underline'
               >
-                去登录
+                返回登录
               </NavLink>
             </div>
           </CardFooter>
@@ -95,4 +75,4 @@ const Signup = () => {
   )
 }
 
-export default Signup
+export default ForgotPassword

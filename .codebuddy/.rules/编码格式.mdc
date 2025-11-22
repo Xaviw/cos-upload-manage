@@ -1,3 +1,14 @@
+---
+description: 
+alwaysApply: true
+enabled: true
+updatedAt: 2025-11-22T03:05:10.576Z
+provider: 
+---
+
+输出代码要求符合 Prettier 格式化规则：
+
+```
 {
   "printWidth": 80,
   "tabWidth": 2,
@@ -18,3 +29,6 @@
   "singleAttributePerLine": true,
   "plugins": ["prettier-plugin-tailwindcss"]
 }
+```
+
+代码输出后如果还有格式化错误，请通过 `npm run format` 命令进行格式化。

@@ -1,11 +1,13 @@
 import Header from '@/components/Header'
-import type { PropsWithChildren } from 'react'
+import { Outlet } from 'react-router'
 
-export default function MainLayout(props: PropsWithChildren) {
+export default function MainLayout() {
   return (
     <div className='flex h-full flex-col'>
       <Header />
-      <div className='flex-1'>{props.children}</div>
+      <div className='flex-1'>
+        <Outlet />
+      </div>
     </div>
   )
 }
