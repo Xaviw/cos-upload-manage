@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Route, Routes } from 'react-router'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
 import './styles/global.css'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
@@ -9,45 +9,61 @@ import Home from './pages/Home'
 import UploadRecords from './pages/UploadRecords'
 import UserManagement from './pages/UserManagement'
 import { ThemeProvider } from '@/components/theme-provider'
+import { Toaster } from '@/components/ui/sonner'
+import { AuthProvider } from '@/contexts/AuthContext'
 
 createRoot(document.getElementById('root')!).render(
   <ThemeProvider
     defaultTheme='dark'
     storageKey='vite-ui-theme'
   >
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path='/login'
-          element={<Login />}
-        />
-        <Route
-          path='/signup'
-          element={<Signup />}
-        />
-        <Route
-          path='/forgot-password'
-          element={<ForgotPassword />}
-        />
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path='/login'
+            element={<Login />}
+          />
+          <Route
+            path='/signup'
+            element={<Signup />}
+          />
+          <Route
+            path='/forgot-password'
+            element={<ForgotPassword />}
+          />
 
-        <Route
-          path='/'
-          element={<MainLayout />}
-        >
           <Route
-            index
-            element={<Home />}
-          />
+            path='/'
+            element={<MainLayout />}
+          >
+            <Route
+              index
+              element={<Home />}
+            />
+            <Route
+              path='records'
+              element={<UploadRecords />}
+            />
+            <Route
+              path='users'
+              element={<UserManagement />}
+            />
+          </Route>
+
           <Route
-            path='records'
-            element={<UploadRecords />}
+            path='*'
+            element={
+              <Navigate
+                to='/'
+                replace
+              />
+            }
           />
-          <Route
-            path='users'
-            element={<UserManagement />}
-          />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+
+      <Toaster position='top-center' />
+    </AuthProvider>
   </ThemeProvider>,
 )

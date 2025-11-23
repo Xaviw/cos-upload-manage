@@ -7,16 +7,32 @@ import { Button } from './ui/button'
 import { Sheet, SheetContent, SheetHeader, SheetTrigger } from './ui/sheet'
 import { Menu, Home, FileText, Users, Key, LogOut } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useAuth } from '@/contexts/AuthContext'
 
 export default function Header() {
   const title = import.meta.env.VITE_APP_TITLE
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { user, signOut } = useAuth()
+
+  // 从 user 对象获取管理员状态和用户信息
+  const isAdmin = user?.role === 1
+  const userData = user
 
   const navItems = [
     { to: '/', label: '首页', icon: Home },
     { to: '/records', label: '上传记录', icon: FileText },
-    { to: '/users', label: '用户管理', icon: Users },
+    // 只有管理员才能看到用户管理菜单
+    ...(isAdmin ? [{ to: '/users', label: '用户管理', icon: Users }] : []),
   ]
+
+  const handleSignOut = async () => {
+    const result = await signOut()
+    if (result.success) {
+      window.location.href = '/login'
+    } else {
+      console.error('退出登录失败:', result.error)
+    }
+  }
 
   const MobileMenu = () => (
     <div className='flex flex-col gap-4 p-4'>
@@ -45,12 +61,14 @@ export default function Header() {
         <Button
           variant='ghost'
           className='w-full justify-start gap-3'
+          onClick={() => (window.location.href = '/change-password')}
         >
           修改密码
         </Button>
         <Button
           variant='ghost'
           className='w-full justify-start gap-3'
+          onClick={handleSignOut}
         >
           退出登录
         </Button>
@@ -113,15 +131,17 @@ export default function Header() {
                 <div className='group hover:bg-accent/80 flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 transition-all duration-200'>
                   <div className='hidden sm:block'>
                     <span className='group-hover:text-primary text-sm font-medium'>
-                      xavi
+                      {userData?.name || user?.email?.split('@')[0] || '用户'}
                     </span>
                   </div>
-                  <Badge
-                    variant='secondary'
-                    className='bg-primary/10 text-primary hover:bg-primary/20 text-xs transition-colors'
-                  >
-                    管理员
-                  </Badge>
+                  {isAdmin && (
+                    <Badge
+                      variant='secondary'
+                      className='bg-primary/10 text-primary hover:bg-primary/20 text-xs transition-colors'
+                    >
+                      管理员
+                    </Badge>
+                  )}
                 </div>
               </HoverCardTrigger>
               <HoverCardContent
@@ -132,16 +152,21 @@ export default function Header() {
                   <div className='border-b px-3 py-2'>
                     <div className='flex items-center gap-2'>
                       <div className='h-2 w-2 rounded-full bg-green-500' />
-                      <p className='text-sm font-medium'>xavi</p>
+                      <p className='text-sm font-medium'>
+                        {userData?.name || user?.email?.split('@')[0] || '用户'}
+                      </p>
                     </div>
                     <p className='text-muted-foreground mt-1 text-xs'>
-                      xavi@example.com
+                      {user?.email || ''}
                     </p>
                   </div>
                   <div className='py-1'>
                     <Button
                       variant='ghost'
                       className='hover:bg-accent/50 h-auto w-full justify-start gap-2 px-3 py-2'
+                      onClick={() =>
+                        (window.location.href = '/change-password')
+                      }
                     >
                       <Key className='h-4 w-4' />
                       <span className='text-sm'>修改密码</span>
@@ -149,6 +174,7 @@ export default function Header() {
                     <Button
                       variant='ghost'
                       className='text-destructive hover:bg-destructive/5 hover:text-destructive h-auto w-full justify-start gap-2 px-3 py-2'
+                      onClick={handleSignOut}
                     >
                       <LogOut className='h-4 w-4' />
                       <span className='text-sm'>退出登录</span>
@@ -189,10 +215,14 @@ export default function Header() {
               <div className='mt-auto border-t pt-4'>
                 <div className='flex items-center gap-3 px-3 py-2'>
                   <div>
-                    <p className='text-sm font-medium'>xavi</p>
-                    <p className='text-muted-foreground text-xs'>管理员</p>
+                    <p className='text-sm font-medium'>
+                      {userData?.name || user?.email?.split('@')[0] || '用户'}
+                    </p>
+                    {isAdmin && (
+                      <p className='text-muted-foreground text-xs'>管理员</p>
+                    )}
                     <p className='text-muted-foreground mt-1 text-xs'>
-                      xavi@example.com
+                      {user?.email || ''}
                     </p>
                   </div>
                 </div>
