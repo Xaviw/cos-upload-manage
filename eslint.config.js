@@ -1,33 +1,41 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import tseslint from 'typescript-eslint'
-import { defineConfig, globalIgnores } from 'eslint/config'
-import eslintConfigPrettier from 'eslint-config-prettier'
-import prettierPlugin from 'eslint-plugin-prettier'
+import js from "@eslint/js"
+import prettier from "eslint-config-prettier/flat"
+import react from "eslint-plugin-react"
+import reactHooks from "eslint-plugin-react-hooks"
+import tailwind from "eslint-plugin-tailwindcss"
+import { defineConfig } from "eslint/config"
+import globals from "globals"
+import ts from "typescript-eslint"
 
 export default defineConfig([
-  globalIgnores(['dist']),
   {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      js.configs.recommended,
-      tseslint.configs.recommended,
-      reactHooks.configs['recommended-latest'],
-      reactRefresh.configs.vite,
-      eslintConfigPrettier,
-    ],
-    plugins: {
-      prettier: prettierPlugin,
+    ignores: ["dist/**", "node_modules/**", "*.config.*"],
+  },
+  js.configs.recommended,
+  ...ts.configs.recommended,
+  react.configs.flat.recommended,
+  react.configs.flat["jsx-runtime"],
+  reactHooks.configs.flat.recommended,
+  ...tailwind.configs["flat/recommended"],
+  prettier,
+  {
+    files: ["**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+      },
+    },
+    settings: {
+      react: {
+        version: "detect",
+      },
+      tailwindcss: {
+        config: `${import.meta.dirname}/src/styles/global.css`,
+      },
     },
     rules: {
-      'prettier/prettier': 'error',
-      'react-refresh/only-export-components': 'warn',
-    },
-    languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
+      "react/prop-types": "off",
+      "tailwindcss/no-custom-classname": "off",
     },
   },
 ])

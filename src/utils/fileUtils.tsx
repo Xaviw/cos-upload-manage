@@ -1,13 +1,13 @@
 import {
-  Image as ImageIcon,
-  Video,
-  Music,
   File,
+  FileAudio,
   FileText,
   FileVideo,
-  FileAudio,
-} from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
+  Image as ImageIcon,
+  Music,
+  Video,
+  type LucideIcon,
+} from "lucide-react"
 
 // 定义文件项接口
 export interface FileItem {
@@ -25,7 +25,7 @@ export interface UploadRecord {
   fileType: string
   fileSize: number
   fileUrl: string | null
-  status: 'approved' | 'pending' | 'rejected'
+  status: "approved" | "pending" | "rejected"
   uploadUser: string
   uploadTime: Date
   auditUser: string | null
@@ -34,28 +34,28 @@ export interface UploadRecord {
 
 // 文件类型检查函数
 export function isImageFile(file: File): boolean {
-  return file.type.startsWith('image/')
+  return file.type.startsWith("image/")
 }
 
 export function isVideoFile(file: File): boolean {
-  return file.type.startsWith('video/')
+  return file.type.startsWith("video/")
 }
 
 export function isAudioFile(file: File): boolean {
-  return file.type.startsWith('audio/')
+  return file.type.startsWith("audio/")
 }
 
 export function isPDFFile(file: File): boolean {
-  return file.type === 'application/pdf'
+  return file.type === "application/pdf"
 }
 
 // 格式化文件大小
 export function formatFileSize(bytes: number): string {
-  if (bytes === 0) return '0 Bytes'
+  if (bytes === 0) return "0 Bytes"
   const k = 1024
-  const sizes = ['Bytes', 'KB', 'MB', 'GB']
+  const sizes = ["Bytes", "KB", "MB", "GB"]
   const i = Math.floor(Math.log(bytes) / Math.log(k))
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i]
 }
 
 // 获取文件预览URL
@@ -78,13 +78,13 @@ export function getFileIcon(file: File): LucideIcon {
 // 统一的文件预览渲染函数
 export function renderFilePreview(
   fileItem: FileItem,
-  size: 'small' | 'medium' = 'small',
-  onPreview?: (file: File) => void,
+  size: "small" | "medium" = "small",
+  onPreview?: (file: File) => void
 ) {
-  const sizeClasses = size === 'small' ? 'h-5 w-5' : 'h-6 w-6'
+  const sizeClasses = size === "small" ? "h-5 w-5" : "h-6 w-6"
 
+  const FileIcon = getFileIcon(fileItem.file)
   if (!fileItem.url) {
-    const FileIcon = getFileIcon(fileItem.file)
     return <FileIcon className={`${sizeClasses} shrink-0 text-gray-400`} />
   }
 
@@ -121,41 +121,41 @@ export function renderFilePreview(
       />
     )
   }
-  return null
+  return <FileIcon className={`${sizeClasses} shrink-0 text-gray-400`} />
 }
 
 // 文件缩略图渲染函数
 export function renderFileThumbnail(
   record: UploadRecord,
-  onPreview: () => void,
+  onPreview: () => void
 ) {
-  if (record.fileType.startsWith('image/') && record.fileUrl) {
+  if (record.fileType.startsWith("image/") && record.fileUrl) {
     return (
       <div
-        className='h-10 w-10 cursor-pointer rounded object-cover'
+        className="h-10 w-10 cursor-pointer rounded object-cover"
         onClick={onPreview}
       >
         <img
           src={record.fileUrl}
           alt={record.fileName}
-          className='h-full w-full rounded object-cover'
+          className="h-full w-full rounded object-cover"
         />
       </div>
     )
   }
 
-  if (record.fileType.startsWith('video/')) {
+  if (record.fileType.startsWith("video/")) {
     return (
-      <div className='flex h-10 w-10 items-center justify-center rounded bg-blue-50'>
-        <FileVideo className='h-6 w-6 text-blue-500' />
+      <div className="flex h-10 w-10 items-center justify-center rounded bg-blue-50">
+        <FileVideo className="h-6 w-6 text-blue-500" />
       </div>
     )
   }
 
-  if (record.fileType.startsWith('audio/')) {
+  if (record.fileType.startsWith("audio/")) {
     return (
-      <div className='flex h-10 w-10 items-center justify-center rounded bg-green-50'>
-        <FileAudio className='h-6 w-6 text-green-500' />
+      <div className="flex h-10 w-10 items-center justify-center rounded bg-green-50">
+        <FileAudio className="h-6 w-6 text-green-500" />
       </div>
     )
   }
@@ -166,8 +166,8 @@ export function renderFileThumbnail(
     size: record.fileSize,
   } as File)
   return (
-    <div className='flex h-10 w-10 items-center justify-center'>
-      <FileIcon className='h-6 w-6 text-gray-400' />
+    <div className="flex h-10 w-10 items-center justify-center">
+      <FileIcon className="h-6 w-6 text-gray-400" />
     </div>
   )
 }
