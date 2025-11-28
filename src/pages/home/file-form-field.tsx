@@ -5,6 +5,7 @@ import { Upload } from "lucide-react"
 import type { Control, FieldPath, FieldValues } from "react-hook-form"
 
 import { cn } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge"
 import {
   FormControl,
   FormField,
@@ -34,6 +35,9 @@ export const FileFormField = <T extends FieldValues = FieldValues>({
   const [previewFile, setPreviewFile] = useState<File | null>(null)
   const [showPreview, setShowPreview] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
+
+  // 快捷路径选项
+  const quickPaths = ["/a/b/c"]
 
   // 文件选择处理
   const handleFileSelect = (fileList: FileList, field: FileField) => {
@@ -67,6 +71,17 @@ export const FileFormField = <T extends FieldValues = FieldValues>({
     const updatedFiles = field.value.map((f: FileItem) =>
       f.id === id ? { ...f, path: newPath } : f
     )
+    field.onChange(updatedFiles)
+  }
+
+  // 快捷路径处理 - 设置所有已选择文件的路径
+  const handleSetQuickPath = (quickPath: string, field: FileField) => {
+    if (!field.value || field.value.length === 0) return
+
+    const updatedFiles = field.value.map((f: FileItem) => ({
+      ...f,
+      path: quickPath,
+    }))
     field.onChange(updatedFiles)
   }
 
@@ -112,7 +127,22 @@ export const FileFormField = <T extends FieldValues = FieldValues>({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>选择文件</FormLabel>
+          <FormLabel className="flex items-center justify-between">
+            <span>选择文件</span>
+            <div className="flex items-center gap-2">
+              <span>快捷路径：</span>
+              {quickPaths.map((path, index) => (
+                <Badge
+                  key={index}
+                  variant="outline"
+                  className="cursor-pointer hover:bg-accent hover:text-accent-foreground"
+                  onClick={() => handleSetQuickPath(path, field)}
+                >
+                  {path}
+                </Badge>
+              ))}
+            </div>
+          </FormLabel>
           <FormControl>
             <div className="space-y-4">
               {/* 文件上传区域 */}

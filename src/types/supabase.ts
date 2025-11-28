@@ -47,6 +47,7 @@ export type Database = {
           region: string
           remark: string | null
           secret: string
+          shortcuts: Json | null
           updated_at: string | null
           url: string
         }
@@ -57,6 +58,7 @@ export type Database = {
           region: string
           remark?: string | null
           secret: string
+          shortcuts?: Json | null
           updated_at?: string | null
           url: string
         }
@@ -67,6 +69,7 @@ export type Database = {
           region?: string
           remark?: string | null
           secret?: string
+          shortcuts?: Json | null
           updated_at?: string | null
           url?: string
         }
@@ -74,6 +77,8 @@ export type Database = {
       }
       files: {
         Row: {
+          audit_remark: string | null
+          audit_time: string | null
           audit_user_id: string | null
           bucket_ids: Json | null
           created_at: string | null
@@ -89,6 +94,8 @@ export type Database = {
           version: string
         }
         Insert: {
+          audit_remark?: string | null
+          audit_time?: string | null
           audit_user_id?: string | null
           bucket_ids?: Json | null
           created_at?: string | null
@@ -104,6 +111,8 @@ export type Database = {
           version: string
         }
         Update: {
+          audit_remark?: string | null
+          audit_time?: string | null
           audit_user_id?: string | null
           bucket_ids?: Json | null
           created_at?: string | null

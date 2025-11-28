@@ -15,19 +15,17 @@ const HomePage = () => {
   }
 
   return (
-    <div className="p-4 lg:p-8">
-      <Card>
-        <CardHeader>
-          <CardTitle>COS 文件上传管理</CardTitle>
-          <CardDescription>
-            上传文件到腾讯云对象存储服务，支持批量上传和路径配置
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <UploadForm onSubmit={handleFormSubmit} />
-        </CardContent>
-      </Card>
-    </div>
+    <Card className="m-4 lg:m-8">
+      <CardHeader>
+        <CardTitle>COS 文件上传管理</CardTitle>
+        <CardDescription>
+          上传文件到腾讯云对象存储服务，支持批量上传和路径配置
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <UploadForm onSubmit={handleFormSubmit} />
+      </CardContent>
+    </Card>
   )
 }
 

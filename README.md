@@ -28,6 +28,8 @@
 - storage_name: TEXT
 - user_id: UUID (关联 User 表，非空)
 - audit_user_id: UUID (关联 User 表)
+- audit_time: TIMESTAMPTZ
+- audit_remark: TEXT
 - created_at: TIMESTAMPTZ (默认值：NOW())
 - updated_at: TIMESTAMPTZ (默认值：NOW())
 
@@ -46,6 +48,7 @@
 - region: TEXT (非空)
 - secret: TEXT (非空)
 - url: TEXT (非空)
+- shortcuts: JSONB (快捷路径数组，默认值：'[]')
 - remark: TEXT
 - created_at: TIMESTAMPTZ (默认值：NOW())
 - updated_at: TIMESTAMPTZ (默认值：NOW())
