@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form"
 
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
-import { MultiSelect } from "@/components/multi-select"
 import {
   Form,
   FormControl,
@@ -25,8 +24,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { MultiSelect } from "@/components/multi-select"
 
-import { VERSION_OPTIONS, STATUS_OPTIONS, type SearchFormValues } from "./config"
+import {
+  STATUS_OPTIONS,
+  VERSION_OPTIONS,
+  type SearchFormValues,
+} from "./config"
 
 interface SearchFormProps {
   onSearch: (filters: SearchFormValues) => void

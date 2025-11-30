@@ -6,6 +6,10 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
+export type UserRole = "normal" | "admin"
+export type UserStatus = "disabled" | "enabled"
+export type FileStatus = "success" | "pending" | "pass" | "reject" | "replaced"
+
 export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
@@ -39,55 +43,63 @@ export type Database = {
   }
   public: {
     Tables: {
-      bucket: {
+      buckets: {
         Row: {
           bucket: string
           created_at: string | null
+          domain: string
           id: string
           region: string
           remark: string | null
-          secret: string
-          shortcuts: Json | null
+          secret_id: string | null
+          shortcuts: string[] | null
           updated_at: string | null
-          url: string
         }
         Insert: {
           bucket: string
           created_at?: string | null
+          domain: string
           id?: string
           region: string
           remark?: string | null
-          secret: string
-          shortcuts?: Json | null
+          secret_id?: string | null
+          shortcuts?: string[] | null
           updated_at?: string | null
-          url: string
         }
         Update: {
           bucket?: string
           created_at?: string | null
+          domain?: string
           id?: string
           region?: string
           remark?: string | null
-          secret?: string
-          shortcuts?: Json | null
+          secret_id?: string | null
+          shortcuts?: string[] | null
           updated_at?: string | null
-          url?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "buckets_secret_id_fkey"
+            columns: ["secret_id"]
+            isOneToOne: false
+            referencedRelation: "secrets"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       files: {
         Row: {
           audit_remark: string | null
           audit_time: string | null
           audit_user_id: string | null
-          bucket_ids: Json | null
+          bucket_ids: string[] | null
           created_at: string | null
           id: string
           name: string
           path: string
           remark: string | null
           size: number
-          status: string | null
+          status: FileStatus | null
           storage_name: string | null
           updated_at: string | null
           user_id: string
@@ -97,14 +109,14 @@ export type Database = {
           audit_remark?: string | null
           audit_time?: string | null
           audit_user_id?: string | null
-          bucket_ids?: Json | null
+          bucket_ids?: string[] | null
           created_at?: string | null
           id?: string
           name: string
           path: string
           remark?: string | null
           size: number
-          status?: string | null
+          status?: FileStatus | null
           storage_name?: string | null
           updated_at?: string | null
           user_id: string
@@ -114,14 +126,14 @@ export type Database = {
           audit_remark?: string | null
           audit_time?: string | null
           audit_user_id?: string | null
-          bucket_ids?: Json | null
+          bucket_ids?: string[] | null
           created_at?: string | null
           id?: string
           name?: string
           path?: string
           remark?: string | null
           size?: number
-          status?: string | null
+          status?: FileStatus | null
           storage_name?: string | null
           updated_at?: string | null
           user_id?: string
@@ -144,35 +156,59 @@ export type Database = {
           },
         ]
       }
-      users: {
+      secrets: {
         Row: {
-          bucket_ids: Json | null
           created_at: string | null
-          email: string
           id: string
-          name: string | null
-          role: number
-          status: number
+          key: string
+          remark: string | null
           updated_at: string | null
         }
         Insert: {
-          bucket_ids?: Json | null
           created_at?: string | null
-          email: string
           id?: string
-          name?: string | null
-          role?: number
-          status?: number
+          key: string
+          remark?: string | null
           updated_at?: string | null
         }
         Update: {
-          bucket_ids?: Json | null
+          created_at?: string | null
+          id?: string
+          key?: string
+          remark?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      users: {
+        Row: {
+          bucket_ids: string[] | null
+          created_at: string | null
+          email: string
+          id: string
+          name: string
+          role: UserRole | null
+          status: UserStatus | null
+          updated_at: string | null
+        }
+        Insert: {
+          bucket_ids?: string[] | null
+          created_at?: string | null
+          email: string
+          id: string
+          name: string
+          role?: UserRole | null
+          status?: UserStatus | null
+          updated_at?: string | null
+        }
+        Update: {
+          bucket_ids?: string[] | null
           created_at?: string | null
           email?: string
           id?: string
-          name?: string | null
-          role?: number
-          status?: number
+          name?: string
+          role?: UserRole | null
+          status?: UserStatus | null
           updated_at?: string | null
         }
         Relationships: []

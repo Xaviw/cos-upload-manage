@@ -14,7 +14,7 @@ export default function Header() {
   const { userInfo, userInfoLoading } = useSessionContext()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
-  const isAdmin = userInfo?.role === 1
+  const isAdmin = userInfo?.role === "admin"
   const navItems = getNavItems(isAdmin)
 
   return (
